@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -5,13 +6,17 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler
 {
     [SerializeField] protected RectTransform joystickRing;
     [SerializeField] protected RectTransform stick;
+
     protected Vector2 originalPosition;
 
     [SerializeField] [Range(0, 1)] private float boundaryRadius = 0.5f;
 
+    public static event Action<Joystick> OnInitializedNewJoystick;
+
     protected virtual void Start()
     {
         originalPosition = stick.anchoredPosition;
+        SendMessageAboutInitializingNewJoystick();
     }
 
     public virtual void OnPointerDown(PointerEventData eventData)
@@ -38,6 +43,12 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler
     public Vector2 GetNormalizedInput()
     {
         Vector2 input = stick.anchoredPosition / (boundaryRadius * joystickRing.rect.width);
+
         return new Vector2(Mathf.Clamp(input.x, -1, 1), Mathf.Clamp(input.y, -1, 1));
+    }
+
+    private void SendMessageAboutInitializingNewJoystick()
+    {
+        OnInitializedNewJoystick?.Invoke(this);
     }
 }

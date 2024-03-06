@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class FloatingJoystick : Joystick
+public class FloatingJoystick : Joystick, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private bool hidding = false;
 
@@ -11,7 +12,10 @@ public class FloatingJoystick : Joystick
         HideJoystick();
     }
 
-    private void OnMouseDown() {
+    public override void OnPointerDown(PointerEventData eventData)
+    {
+        base.OnPointerDown(eventData);
+        
         ShowJoystick();
 
         Vector2 newJoystickPostition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -19,7 +23,7 @@ public class FloatingJoystick : Joystick
         joystickRing.transform.position = newJoystickPostition;
     }
 
-    private void OnMouseUp() 
+    public void OnPointerUp(PointerEventData eventData)
     {
         HideJoystick();
     }

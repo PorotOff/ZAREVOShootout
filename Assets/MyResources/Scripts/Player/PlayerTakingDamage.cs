@@ -15,8 +15,6 @@ public class PlayerTakingDamage : EntityTakingDamage
 
             SendMessageAboutEntityTakedDamage();
             OnPlayerTakedDamage?.Invoke();
-
-            Debug.Log("AAAA Zombie");
         }
     }
 }

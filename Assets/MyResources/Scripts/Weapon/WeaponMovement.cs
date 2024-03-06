@@ -14,11 +14,11 @@ public class WeaponMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        EntityVision.OnEntitySeen += DetermineTargetForShooting;
+        PlayerShootingDistance.OnZombieInSootionArea += DetermineTargetForShooting;
     }
     private void OnDisable()
     {
-        EntityVision.OnEntitySeen -= DetermineTargetForShooting;
+        PlayerShootingDistance.OnZombieInSootionArea -= DetermineTargetForShooting;
     }
 
     private void Update()

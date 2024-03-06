@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 1328551213634189754}
   - component: {fileID: 7213112215834125255}
   - component: {fileID: 5268978943984678461}
-  - component: {fileID: 1639578648204720770}
+  - component: {fileID: 5643027000651841773}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Zombie
@@ -302,7 +302,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 20
---- !u!114 &1639578648204720770
+--- !u!114 &5643027000651841773
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -311,7 +311,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6013693894752734955}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2412d6b732cf04d4897aa5652b1bbdd5, type: 3}
+  m_Script: {fileID: 11500000, guid: 99e892253e66494408a464a730af4110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 3.5
+  movementSpeed: 5
+  speedModification: 1
+  health: 0
+  maxHealth: 100
+  damage: 5

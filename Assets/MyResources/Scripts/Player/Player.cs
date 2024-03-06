@@ -2,8 +2,21 @@ using UnityEngine;
 
 public class Player : Entity
 {
-    [Header("Movement settings")]
-    [SerializeField] private Joystick joystick;
+    private Joystick joystick;
+
+    private void OnEnable()
+    {
+        Joystick.OnInitializedNewJoystick += SetJoystick;
+    }
+    private void OnDisable()
+    {
+        Joystick.OnInitializedNewJoystick -= SetJoystick;
+    }
+
+    private void SetJoystick(Joystick joystick)
+    {
+        this.joystick = joystick;
+    }
 
     public override void Move()
     {

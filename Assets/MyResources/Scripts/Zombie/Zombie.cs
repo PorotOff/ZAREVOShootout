@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Zombie : Entity
 {
-    [SerializeField] private int damage = 5;
+    [Header("Damage settings")]
+    [SerializeField] protected int damage = 5;
     public int Damage 
     {
         get
