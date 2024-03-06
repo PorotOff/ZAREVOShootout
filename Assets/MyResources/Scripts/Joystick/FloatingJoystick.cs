@@ -13,7 +13,7 @@ public class FloatingJoystick : Joystick, IPointerDownHandler, IPointerUpHandler
     }
 
     public override void OnPointerDown(PointerEventData eventData)
-    {
+    {       
         base.OnPointerDown(eventData);
         
         ShowJoystick();
@@ -21,7 +21,9 @@ public class FloatingJoystick : Joystick, IPointerDownHandler, IPointerUpHandler
         Vector2 newJoystickPostition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         joystickRing.transform.position = newJoystickPostition;
+        stick.anchoredPosition = originalPosition; // Обновляем позицию стика
     }
+
 
     public void OnPointerUp(PointerEventData eventData)
     {

@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class StartGame : MonoBehaviour
+public class StartGame : MonoBehaviour, IPointerDownHandler
 {
     public static event Action OnGameStarted;
     private bool isGameStarted = false;
@@ -15,7 +16,7 @@ public class StartGame : MonoBehaviour
         GameOver.OnGameOver -= EndGame;
     }
 
-    private void OnMouseDown()
+    public void OnPointerDown(PointerEventData eventData)
     {
         if(!isGameStarted)
         {
@@ -24,6 +25,8 @@ public class StartGame : MonoBehaviour
 
             Debug.Log("Game started");
         }
+
+        Debug.Log("Player pressed the button");
     }
 
     public void EndGame()

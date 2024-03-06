@@ -2,45 +2,71 @@ using UnityEngine;
 
 public class WeaponMovement : MonoBehaviour
 {
-    private Transform target; // Цель, за которой будет следить оружие
-    [SerializeField] [Range(0, 1)] private float boundaryRadius = 0.5f; // Граница, за которую не может выйти оружие
+    private GameObject player; // Персонаж
+    [SerializeField] [Range(0, 5)] private float orbitRadius = 1f; // Радиус орбиты оружия вокруг персонажа
+    private bool facingRight = true; // Направление персонажа
 
-    private Vector2 originalPosition;
-
-    private void Start()
-    {
-        originalPosition = transform.position;
-    }
+    private Transform target; // Зомби, который вошёл в поле зрения игрока
 
     private void OnEnable()
     {
-        PlayerShootingDistance.OnZombieInSootionArea += DetermineTargetForShooting;
+        Entity.OnEntitySpawned += SetPlayer;
+        PlayerShootingDistance.OnZombieInSootingArea += SetTarget;
     }
     private void OnDisable()
     {
-        PlayerShootingDistance.OnZombieInSootionArea -= DetermineTargetForShooting;
+        Entity.OnEntitySpawned -= SetPlayer;
+        PlayerShootingDistance.OnZombieInSootingArea += SetTarget;
     }
 
     private void Update()
     {
+        Vector2 weaponDirection;
+        
         if (target != null)
         {
-            Vector2 direction = (Vector2)target.position - originalPosition;
-            float distance = Vector2.Distance(originalPosition, target.position);
-
-            if (distance > boundaryRadius)
+            weaponDirection = (target.position - player.transform.position).normalized;
+            // Проверяем, в какую сторону должен быть повернут персонаж
+            if (weaponDirection.x > 0 && !facingRight)
             {
-                direction = originalPosition + direction.normalized * boundaryRadius;
+                Flip();
+            }
+            else if (weaponDirection.x < 0 && facingRight)
+            {
+                Flip();
             }
 
-            // Поворачиваем оружие в сторону цели
-            Quaternion rotation = Quaternion.LookRotation(direction);
-            transform.rotation = rotation;
+            // Вычисляем угол между направлением оружия и осью X
+            float angle = Mathf.Atan2(weaponDirection.y, weaponDirection.x) * Mathf.Rad2Deg;
+            // Устанавливаем поворот оружия вокруг оси Z
+            transform.rotation = Quaternion.Euler(0, 0, angle);
         }
+        else
+        {
+            // Если зомби нет в поле зрения, оружие остается в том же направлении
+            weaponDirection = transform.right;
+        }
+
+        // Оружие всегда двигается вместе с игроком
+        Vector2 weaponPosition = (Vector2)player.transform.position + weaponDirection * orbitRadius;
+        transform.position = new Vector3(weaponPosition.x, weaponPosition.y, transform.position.z);
     }
 
-    private void DetermineTargetForShooting(Transform tragetForShooting)
+    // Функция для переворота персонажа
+    private void Flip()
     {
-        target = tragetForShooting;
+        facingRight = !facingRight;
+        Vector3 theScale = transform.localScale;
+        theScale.y *= -1;
+        transform.localScale = theScale;
+    }
+
+    private void SetPlayer(Entity player)
+    {
+        this.player = player.gameObject;
+    }
+    private void SetTarget(Transform target)
+    {
+        this.target = target;
     }
 }

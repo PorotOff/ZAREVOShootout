@@ -3,7 +3,7 @@ using System;
 
 public class PlayerShootingDistance : EntityViewField
 {
-    public static event Action<Transform> OnZombieInSootionArea;
+    public static event Action<Transform> OnZombieInSootingArea;
 
     private Vector2 shootingArea;
 
@@ -22,7 +22,7 @@ public class PlayerShootingDistance : EntityViewField
 
         if(other.GetComponent<Zombie>())
         {
-            OnZombieInSootionArea?.Invoke(other.GetComponent<Transform>());
+            OnZombieInSootingArea?.Invoke(other.GetComponent<Transform>());
         }
     }
 

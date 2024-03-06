@@ -21,7 +21,6 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
-        OnDrag(eventData);
     }
 
     public virtual void OnDrag(PointerEventData eventData)

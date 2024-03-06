@@ -4,6 +4,7 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     protected Rigidbody2D entity;
+    public static event Action<Entity> OnEntitySpawned;
 
     [Header("Movement settings")]
     [SerializeField] protected float movementSpeed = 5f;
@@ -46,9 +47,15 @@ public class Entity : MonoBehaviour
     }
     public static event Action OnPlayerHealtZero;
 
-    private void Awake() {
+    private void Awake()
+    {
         entity = GetComponent<Rigidbody2D>();
         health = maxHealth;
+    }
+
+    private void Start() 
+    {
+        OnEntitySpawned?.Invoke(this);
     }
 
     public virtual void Move() 
