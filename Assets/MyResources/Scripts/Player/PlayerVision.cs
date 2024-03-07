@@ -1,9 +1,10 @@
 using UnityEngine;
 using System;
 
-public class PlayerShootingDistance : EntityViewField
+public class PlayerVision : EntityVision
 {
-    public static event Action<Transform> OnZombieInSootingArea;
+    public static event Action<Transform> OnZombieInViewField;
+    public static event Action OnZombieOutViewField;
 
     private Vector2 shootingArea;
 
@@ -22,7 +23,17 @@ public class PlayerShootingDistance : EntityViewField
 
         if(other.GetComponent<Zombie>())
         {
-            OnZombieInSootingArea?.Invoke(other.GetComponent<Transform>());
+            OnZombieInViewField?.Invoke(other.GetComponent<Transform>());
+        }
+    }
+
+    protected override void OnTriggerExit2D(Collider2D other)
+    {
+        base.OnTriggerExit2D(other);
+
+        if(other.GetComponent<Zombie>())
+        {
+            OnZombieOutViewField?.Invoke();
         }
     }
 
