@@ -11,7 +11,7 @@ public class Entity : MonoBehaviour
     [SerializeField] protected float speedModification = 1f;
 
     [Header("Health settings")]
-    [SerializeField] protected int health;
+    protected int health;
     public int Health
     {
         get
@@ -45,15 +45,15 @@ public class Entity : MonoBehaviour
             }
         }
     }
-    public static event Action OnPlayerHealtZero;
+    public static event Action OnEntityHealtZero;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         entity = GetComponent<Rigidbody2D>();
         health = maxHealth;
     }
 
-    private void Start() 
+    protected virtual void Start() 
     {
         OnEntitySpawned?.Invoke(this);
     }
@@ -70,7 +70,7 @@ public class Entity : MonoBehaviour
         if(health <= 0)
         {
             health = 0;
-            OnPlayerHealtZero?.Invoke();
+            OnEntityHealtZero?.Invoke();
             gameObject.SetActive(false);
         }
     }

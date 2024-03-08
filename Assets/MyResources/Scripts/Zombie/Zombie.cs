@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Zombie : Entity
 {
-    private Rigidbody2D zombie;
 
     [Header("Damage settings")]
     [SerializeField] protected int damage = 5;
@@ -19,26 +18,20 @@ public class Zombie : Entity
     }
 
     private Transform target;
-
-    private void Awake()
-    {
-        zombie = GetComponent<Rigidbody2D>();
-    }
+    private Vector2 direction = Vector2.zero;
 
     private void OnEnable()
     {
-        ZombieVision.OnPlayerInViewField += SetTarget;
-        ZombieVision.OnPlayerOutViewField += ClearTarget;
+        OnEntitySpawned += SetTarget;
     }
     private void OnDisable()
     {
-        ZombieVision.OnPlayerInViewField -= SetTarget;
-        ZombieVision.OnPlayerOutViewField -= ClearTarget;
+        OnEntitySpawned -= SetTarget;
     }
 
-    private void SetTarget(Transform target)
+    private void SetTarget(Entity player)
     {
-        this.target = target;
+        target = player.gameObject.transform;
     }
     private void ClearTarget()
     {
@@ -47,8 +40,11 @@ public class Zombie : Entity
 
     public override void Move()
     {
-        Vector2 direction = (Vector2)target.position - (Vector2)transform.position;
+        if(target != null)
+        {
+            direction = (Vector2)target.position - (Vector2)transform.position;
 
-        zombie.velocity = direction.normalized * movementSpeed;
+            entity.velocity = direction.normalized * movementSpeed;
+        }
     }
 }

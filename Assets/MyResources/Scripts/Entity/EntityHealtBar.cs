@@ -3,31 +3,45 @@ using UnityEngine.UI;
 
 public class EntityHealthBar : MonoBehaviour
 {
-    [SerializeField] private Entity entity;
-    private Slider healthBarSlider;
+    protected Entity entity;
+    protected Slider healthBarSlider;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         healthBarSlider = GetComponent<Slider>();
-        healthBarSlider.maxValue = entity.MaxHealth;
-    }
-
-    private void Start()
-    {
         UpdateHealthBarValue();
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         EntityTakingDamage.OnEntityTakedDamage += UpdateHealthBarValue;
+
+        Entity.OnEntitySpawned += SetEntity;
     }
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         EntityTakingDamage.OnEntityTakedDamage -= UpdateHealthBarValue;
+
+        Entity.OnEntitySpawned -= SetEntity;
     }
 
-    private void UpdateHealthBarValue()
+    protected void UpdateHealthBarValue()
     {
-        healthBarSlider.value = entity.Health;
+        if (entity != null)
+        {
+            healthBarSlider.value = entity.Health;
+        }
+    }
+
+    protected void SetEntity(Entity entity)
+    {
+        this.entity = entity;
+        UpdateHealthbar(entity);
+    }
+
+    private void UpdateHealthbar(Entity entity)
+    {
+        healthBarSlider.maxValue = entity.MaxHealth;
+        UpdateHealthBarValue();
     }
 }

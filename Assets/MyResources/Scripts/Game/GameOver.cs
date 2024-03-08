@@ -7,11 +7,11 @@ public class GameOver : MonoBehaviour
 
     private void OnEnable()
     {
-        Entity.OnPlayerHealtZero += EndGame;
+        Entity.OnEntityHealtZero += EndGame;
     }
     private void OnDisable()
     {
-        Entity.OnPlayerHealtZero -= EndGame;
+        Entity.OnEntityHealtZero -= EndGame;
     }
 
     private void EndGame()
