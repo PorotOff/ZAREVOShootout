@@ -1,50 +1,65 @@
+using System;
 using UnityEngine;
 
-public class Zombie : Entity
+public class Zombie : Entity, IMovable
 {
+	public static event Action<Zombie> OnZombieSpawned;
+	public static event Action OnZombieHealthZero;
 
-    [Header("Damage settings")]
-    [SerializeField] protected int damage = 5;
-    public int Damage 
-    {
-        get
-        {
-            return damage;
-        }
-        private set
-        {
-            damage = value;
-        }
-    }
+	[Header("Damage settings")]
+	[SerializeField] private int damage = 5;
+	public int Damage
+	{
+		get
+		{
+			return damage;
+		}
+		protected set
+		{
+			damage = value;
 
-    private Transform target;
-    private Vector2 direction = Vector2.zero;
+			if (value < 0)
+			{
+				damage = 0;
+			}
+		}
+	}
 
-    private void OnEnable()
-    {
-        OnEntitySpawned += SetTarget;
-    }
-    private void OnDisable()
-    {
-        OnEntitySpawned -= SetTarget;
-    }
+	private Transform target;
+	private Vector2 moveDirection = Vector2.zero;
 
-    private void SetTarget(Entity player)
-    {
-        target = player.gameObject.transform;
-    }
-    private void ClearTarget()
-    {
-        target = null;
-    }
+	private void OnEnable()
+	{
+		Player.OnPlayerSpawned += SetTarget;
+		Player.OnPlayerHealthZero += ClearTarget;
+	}
+	private void OnDisable()
+	{
+		Player.OnPlayerSpawned -= SetTarget;
+		Player.OnPlayerHealthZero += ClearTarget;
+	}
 
-    public override void Move()
-    {
-        if(target != null)
-        {
-            direction = (Vector2)target.position - (Vector2)transform.position;
+	protected void Start()
+	{
+		OnZombieSpawned?.Invoke(this);
+	}
 
-            entity.velocity = direction.normalized * movementSpeed;
-        }
-    }
+	private void SetTarget(Player target)
+	{
+		this.target = target.gameObject.transform;
+	}
+	private void ClearTarget()
+	{
+		target = null;
+	}
+
+	public void Move()
+	{
+		if (target != null)
+		{
+			moveDirection = (Vector2)target.position - (Vector2)transform.position;
+
+			entity.velocity = moveDirection.normalized * movementSpeed;
+		}
+	}
 }

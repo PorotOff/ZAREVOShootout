@@ -1,27 +1,66 @@
+using System;
 using UnityEngine;
 
-public class Player : Entity
+public class Player : Entity, IMovable
 {
-    private Joystick joystick;
+	public static event Action<Player> OnPlayerSpawned;
 
-    private void OnEnable()
-    {
-        Joystick.OnInitializedNewJoystick += SetJoystick;
-    }
-    private void OnDisable()
-    {
-        Joystick.OnInitializedNewJoystick -= SetJoystick;
-    }
+	public static event Action<Player> OnPlayerTakedDamage;
+	public static event Action OnPlayerHealthZero;
 
-    private void SetJoystick(Joystick joystick)
-    {
-        this.joystick = joystick;
-    }
+	public override int Health
+	{
+		get
+		{
+			return health;
+		}
+		protected set
+		{
+			health = value;
 
-    public override void Move()
-    {
-        Vector2 movementDirection = joystick.GetNormalizedInput();
+			if (health < 0)
+			{
+				health = 0;
 
-        entity.velocity = movementDirection * movementSpeed * speedModification;
-    }
+				OnPlayerHealthZero?.Invoke();
+
+				gameObject.SetActive(false);
+			}
+		}
+	}
+
+	private Joystick joystick;
+
+	private void OnEnable()
+	{
+		Joystick.OnInitializedNewJoystick += SetJoystick;
+	}
+	private void OnDisable()
+	{
+		Joystick.OnInitializedNewJoystick -= SetJoystick;
+	}
+
+	private void Start()
+	{
+		OnPlayerSpawned?.Invoke(this);
+	}
+
+	private void SetJoystick(Joystick joystick)
+	{
+		this.joystick = joystick;
+	}
+
+	public void Move()
+	{
+		Vector2 movementDirection = joystick.GetNormalizedInput();
+
+		entity.velocity = movementDirection * movementSpeed * speedModification;
+	}
+
+	public override void TakeDamage(int damage)
+	{
+		Health -= damage;
+
+		OnPlayerTakedDamage?.Invoke(this);
+	}
 }

@@ -3,45 +3,28 @@ using UnityEngine.UI;
 
 public class EntityHealthBar : MonoBehaviour
 {
-    protected Entity entity;
-    protected Slider healthBarSlider;
+	protected Entity entity;
+	protected Slider healthBarSlider;
 
-    protected virtual void Awake()
-    {
-        healthBarSlider = GetComponent<Slider>();
-        UpdateHealthBarValue();
-    }
+	protected virtual void Awake()
+	{
+		healthBarSlider = GetComponent<Slider>();
 
-    protected virtual void OnEnable()
-    {
-        EntityTakingDamage.OnEntityTakedDamage += UpdateHealthBarValue;
+		entity = GetComponentInParent<Entity>();
 
-        Entity.OnEntitySpawned += SetEntity;
-    }
-    protected virtual void OnDisable()
-    {
-        EntityTakingDamage.OnEntityTakedDamage -= UpdateHealthBarValue;
+		healthBarSlider.maxValue = entity.MaxHealth;
+	}
 
-        Entity.OnEntitySpawned -= SetEntity;
-    }
+	private void Start()
+	{
+		UpdateHealthbar(entity);
+	}
 
-    protected void UpdateHealthBarValue()
-    {
-        if (entity != null)
-        {
-            healthBarSlider.value = entity.Health;
-        }
-    }
-
-    protected void SetEntity(Entity entity)
-    {
-        this.entity = entity;
-        UpdateHealthbar(entity);
-    }
-
-    private void UpdateHealthbar(Entity entity)
-    {
-        healthBarSlider.maxValue = entity.MaxHealth;
-        UpdateHealthBarValue();
-    }
+	protected void UpdateHealthbar(Entity entity)
+	{
+		if (entity != null)
+		{
+			healthBarSlider.value = entity.Health;
+		}
+	}
 }

@@ -3,59 +3,65 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    private GameObject playerForWeaponLink; // Персонаж для привязки оружия
-    public GameObject PlayerForWeaponLink
-    {
-        get
-        {
-            return playerForWeaponLink;
-        }
-        private set{}
-    }
+	private ZombiesListForAttack zombiesList;
 
-    private Transform target;
-    public Transform Target
-    {
-        get
-        {
-            return target;
-        }
-        private set{}
-    }
+	public static event Action<Weapon> OnWeaponInstalled;
 
-    public static event Action<Weapon> OnWeaponInstalled;
+	private GameObject playerForWeaponLink; // Персонаж для привязки оружия
+	public GameObject PlayerForWeaponLink
+	{
+		get
+		{
+			return playerForWeaponLink;
+		}
+		private set { }
+	}
 
-    private void Start()
-    {
-        OnWeaponInstalled?.Invoke(this);
-    }
+	private Transform target;
+	public Transform Target
+	{
+		get
+		{
+			return target;
+		}
+		private set { }
+	}
 
-    private void OnEnable()
-    {
-        Entity.OnEntitySpawned += SetPlayer;
+	private void OnEnable()
+	{
+		ZombiesListForAttack.OnZombiesListInitialised += SetZombiesList;
 
-        PlayerVision.OnZombieInViewField += SetTarget;
-        PlayerVision.OnEntityOutViewField += ClearTarget;
-    }
-    private void OnDisable()
-    {
-        Entity.OnEntitySpawned -= SetPlayer;
+		Player.OnPlayerSpawned += SetPlayer;
+	}
+	private void OnDisable()
+	{
+		ZombiesListForAttack.OnZombiesListInitialised -= SetZombiesList;
 
-        PlayerVision.OnZombieInViewField -= SetTarget;
-        PlayerVision.OnEntityOutViewField -= ClearTarget;
-    }
+		Player.OnPlayerSpawned -= SetPlayer;
+	}
 
-    private void SetPlayer(Entity player)
-    {
-        playerForWeaponLink = player.gameObject;
-    }
+	private void Start()
+	{
+		OnWeaponInstalled?.Invoke(this);
+	}
 
-    private void SetTarget(Transform target)
-    {
-        this.target = target;
-    }
-    private void ClearTarget()
-    {
-        target = null;
-    }
+	private void Update()
+	{
+		SetTarget();
+	}
+
+	private void SetZombiesList(ZombiesListForAttack zombiesList)
+	{
+		this.zombiesList = zombiesList;
+	}
+
+	private void SetPlayer(Player player)
+	{
+		playerForWeaponLink = player.gameObject;
+	}
+
+	private void SetTarget()
+	{
+		target = zombiesList.FindClosestEnemy();
+	}
 }

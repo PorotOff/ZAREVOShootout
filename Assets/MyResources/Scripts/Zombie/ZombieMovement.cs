@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ZombieMovement : EntityMovement
+public class ZombieMovement : MonoBehaviour
 {
     private Zombie zombie;
 

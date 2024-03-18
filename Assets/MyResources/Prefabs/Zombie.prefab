@@ -372,7 +372,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2954951a59cc3b408cc5a7da968d3f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity: {fileID: 0}
 --- !u!1 &3146743986927555281
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,12 +417,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7754113616946328891}
-  - component: {fileID: 1328551213634189754}
   - component: {fileID: 7213112215834125255}
-  - component: {fileID: 5268978943984678461}
+  - component: {fileID: 1328551213634189754}
   - component: {fileID: 5643027000651841773}
-  - component: {fileID: 6177971136242608528}
   - component: {fileID: 1031501888176382759}
+  - component: {fileID: 6356220621505895876}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Zombie
@@ -449,33 +447,6 @@ Transform:
   - {fileID: 1632666966026249537}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &1328551213634189754
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6013693894752734955}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 1
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
 --- !u!70 &7213112215834125255
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -511,15 +482,22 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.4276216}
   m_Size: {x: 0.75, y: 1.8377894}
   m_Direction: 0
---- !u!58 &5268978943984678461
-CircleCollider2D:
+--- !u!50 &1328551213634189754
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6013693894752734955}
-  m_Enabled: 1
-  m_Density: 1
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -527,25 +505,10 @@ CircleCollider2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 20
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!114 &5643027000651841773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -560,21 +523,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 3.5
   speedModification: 1
-  health: 0
-  maxHealth: 100
-  damage: 5
---- !u!114 &6177971136242608528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6013693894752734955}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e0e057dddc5f5c4aa2571e9a71f0005, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  maxHealth: 1000
+  damage: 1
 --- !u!114 &1031501888176382759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -585,6 +535,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25adea9bf3c56264ea0d178215cc27c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6356220621505895876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6013693894752734955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 521baefb584068b458b369a91e46aba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6853964228698309198

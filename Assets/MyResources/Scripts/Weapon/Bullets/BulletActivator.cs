@@ -11,7 +11,7 @@ public class BulletActivator : MonoBehaviour
         {
             return weapon;
         }
-        private set{}
+        private set { }
     }
 
     private float timer = 0f; // таймер для метода Update
@@ -44,7 +44,7 @@ public class BulletActivator : MonoBehaviour
 
     private void ActivateBullet()
     {
-        if(weapon.Target != null)
+        if (weapon.isActiveAndEnabled && weapon.Target != null)
         {
             foreach (Transform bullet in bulletContainer)
             {
@@ -60,6 +60,6 @@ public class BulletActivator : MonoBehaviour
 
     private void SetWeapon(Weapon weapon)
     {
-        this.weapon = weapon; 
+        this.weapon = weapon;
     }
 }

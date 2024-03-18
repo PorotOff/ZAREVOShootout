@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class WeaponRotation : MonoBehaviour
 {
-    [SerializeField] [Range(0, 5)] private float orbitRadius = 1f; // Радиус орбиты оружия вокруг персонажа
+    [SerializeField][Range(0, 5)] private float orbitRadius = 1f; // Радиус орбиты оружия вокруг персонажа
     private bool facingRight = true; // Направление персонажа
 
     private Weapon weapon;
@@ -15,22 +15,22 @@ public class WeaponRotation : MonoBehaviour
 
     private void Update()
     {
-        FindWeaponDirection();
+        SetWeaponDirection();
 
         // Вычисляем угол между направлением оружия и осью X
         float angle = Mathf.Atan2(weaponDirection.y, weaponDirection.x) * Mathf.Rad2Deg;
         Vector2 weaponPosition = (Vector2)weapon.PlayerForWeaponLink.transform.position + weaponDirection * orbitRadius;
-        
+
         transform.rotation = Quaternion.Euler(0, 0, angle);
         transform.position = new Vector3(weaponPosition.x, weaponPosition.y, transform.position.z);
     }
 
-    private void FindWeaponDirection()
+    private void SetWeaponDirection()
     {
-        if (weapon.Target != null)
+        if (weapon.Target != null && weapon.PlayerForWeaponLink != null)
         {
             weaponDirection = (weapon.Target.position - weapon.PlayerForWeaponLink.transform.position).normalized;
-            
+
             // Проверяем, в какую сторону должен быть повернут персонаж
             if (weaponDirection.x > 0 && !facingRight)
             {
@@ -42,7 +42,7 @@ public class WeaponRotation : MonoBehaviour
             }
         }
     }
-    
+
     private void Flip()
     {
         facingRight = !facingRight;

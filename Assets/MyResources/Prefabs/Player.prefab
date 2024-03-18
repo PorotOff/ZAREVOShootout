@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5781969145364956814}
   - component: {fileID: 7272656145745271073}
-  - component: {fileID: 1068927036973783803}
+  - component: {fileID: 8482950824258366988}
   m_Layer: 5
   m_Name: HealthBarSlider
   m_TagString: Untagged
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1068927036973783803
+--- !u!114 &8482950824258366988
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,10 +99,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1385023726973189944}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2954951a59cc3b408cc5a7da968d3f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 047a514cdbdd3df4894213167efd1a20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity: {fileID: 7008927955381385606}
 --- !u!1 &3071286682244178399
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,13 +759,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2357522034211824758}
-  - component: {fileID: 3263222227398741528}
-  - component: {fileID: 1899533219375566907}
   - component: {fileID: 1523125760725782893}
+  - component: {fileID: 1899533219375566907}
+  - component: {fileID: 3263222227398741528}
   - component: {fileID: 7008927955381385606}
-  - component: {fileID: 2547355043690877379}
-  - component: {fileID: 5481960495489296714}
-  - component: {fileID: 5648320073133115794}
+  - component: {fileID: 5892678073947100917}
+  - component: {fileID: 1811486089314523256}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -793,22 +791,15 @@ Transform:
   - {fileID: 2138752248144427274}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &3263222227398741528
-Rigidbody2D:
-  serializedVersion: 4
+--- !u!61 &1523125760725782893
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7641485609390553411}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_Enabled: 1
+  m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -816,10 +807,35 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 1
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 22, y: 12}
+  m_EdgeRadius: 0
 --- !u!70 &1899533219375566907
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -855,15 +871,22 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.4276216}
   m_Size: {x: 0.75, y: 1.8377894}
   m_Direction: 0
---- !u!61 &1523125760725782893
-BoxCollider2D:
+--- !u!50 &3263222227398741528
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7641485609390553411}
-  m_Enabled: 1
-  m_Density: 1
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -871,35 +894,10 @@ BoxCollider2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 22, y: 12}
-  m_EdgeRadius: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!114 &7008927955381385606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -914,9 +912,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 5
   speedModification: 1
-  health: 0
-  maxHealth: 100
---- !u!114 &2547355043690877379
+  maxHealth: 1000
+--- !u!114 &5892678073947100917
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -925,10 +922,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7641485609390553411}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55d0fa0d929611b45bc3413c6161f0c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b6d7205bc5e39548b21596881a9073c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5481960495489296714
+--- !u!114 &1811486089314523256
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -937,19 +934,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7641485609390553411}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef3f9d612334a3241985ba5f67e654d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5648320073133115794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7641485609390553411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 591af231824bb9e448404c8e4efbd00e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ccae375ea796aa4a98664ea22dc9e63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8997729039587784250

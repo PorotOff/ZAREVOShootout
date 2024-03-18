@@ -1104,11 +1104,16 @@ PrefabInstance:
       propertyPath: joystick
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7008927955381385606, guid: 96a805cf7e78621478d51e5109d0c9a6, type: 3}
+      propertyPath: maxHealth
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 7641485609390553411, guid: 96a805cf7e78621478d51e5109d0c9a6, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2547355043690877379, guid: 96a805cf7e78621478d51e5109d0c9a6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
