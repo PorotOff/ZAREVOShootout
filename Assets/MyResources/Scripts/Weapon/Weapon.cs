@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-	private ZombiesListForAttack zombiesList;
+	private ZombieManager zombieManager;
 
 	public static event Action<Weapon> OnWeaponInstalled;
 
@@ -17,7 +17,7 @@ public class Weapon : MonoBehaviour
 		private set { }
 	}
 
-	private Transform target;
+	private Transform target = null;
 	public Transform Target
 	{
 		get
@@ -29,15 +29,15 @@ public class Weapon : MonoBehaviour
 
 	private void OnEnable()
 	{
-		ZombiesListForAttack.OnZombiesListInitialised += SetZombiesList;
+		ZombieManager.OnZombiesListInitialised.AddListener(SetZombieManager);
 
-		Player.OnPlayerSpawned += SetPlayer;
+		Player.OnPlayerSpawned.AddListener(SetPlayer);
 	}
 	private void OnDisable()
 	{
-		ZombiesListForAttack.OnZombiesListInitialised -= SetZombiesList;
+		ZombieManager.OnZombiesListInitialised.RemoveListener(SetZombieManager);
 
-		Player.OnPlayerSpawned -= SetPlayer;
+		Player.OnPlayerSpawned.RemoveListener(SetPlayer);
 	}
 
 	private void Start()
@@ -50,9 +50,9 @@ public class Weapon : MonoBehaviour
 		SetTarget();
 	}
 
-	private void SetZombiesList(ZombiesListForAttack zombiesList)
+	private void SetZombieManager(ZombieManager zombieManager)
 	{
-		this.zombiesList = zombiesList;
+		this.zombieManager = zombieManager;
 	}
 
 	private void SetPlayer(Player player)
@@ -62,6 +62,6 @@ public class Weapon : MonoBehaviour
 
 	private void SetTarget()
 	{
-		target = zombiesList.FindClosestEnemy();
+		target = zombieManager.FindClosestZombie();
 	}
 }

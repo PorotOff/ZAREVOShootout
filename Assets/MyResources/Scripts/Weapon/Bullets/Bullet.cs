@@ -46,6 +46,8 @@ public class Bullet : MonoBehaviour
 			bullet.AddForce(flyDirection.normalized * bulletFlySpeed, ForceMode2D.Impulse);
 
 			RotateBulletToEnemySide(flyDirection);
+
+			Debug.Log("Bullet flied from weapon");
 		}
 	}
 
@@ -55,5 +57,4 @@ public class Bullet : MonoBehaviour
 
 		bullet.rotation = angle + bullet.transform.rotation.z;
 	}
-
 }

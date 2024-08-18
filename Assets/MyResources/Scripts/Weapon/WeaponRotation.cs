@@ -2,52 +2,63 @@ using UnityEngine;
 
 public class WeaponRotation : MonoBehaviour
 {
-    [SerializeField][Range(0, 5)] private float orbitRadius = 1f; // Радиус орбиты оружия вокруг персонажа
-    private bool facingRight = true; // Направление персонажа
+	[Range(0, 5)] public float orbitRadius = 1f; // Радиус орбиты оружия вокруг персонажа
+	private bool facingRight = true; // Направление персонажа
 
-    private Weapon weapon;
-    Vector2 weaponDirection = Vector2.zero;
+	public Weapon weapon;
+	public Vector2 weaponDirection = Vector2.zero;
 
-    private void Awake()
-    {
-        weapon = GetComponent<Weapon>();
-    }
+	private IWeaponState currentWeaponState;
 
-    private void Update()
-    {
-        SetWeaponDirection();
+	private void Awake()
+	{
+		weapon = GetComponent<Weapon>();
 
-        // Вычисляем угол между направлением оружия и осью X
-        float angle = Mathf.Atan2(weaponDirection.y, weaponDirection.x) * Mathf.Rad2Deg;
-        Vector2 weaponPosition = (Vector2)weapon.PlayerForWeaponLink.transform.position + weaponDirection * orbitRadius;
+		currentWeaponState = new NoWeaponRotationState();
+	}
 
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-        transform.position = new Vector3(weaponPosition.x, weaponPosition.y, transform.position.z);
-    }
+	private void OnEnable()
+	{
+		StartGameHandler.OnGameStarted.AddListener(SetWeaponRotationState);
+	}
+	private void OnDisable()
+	{
+		StartGameHandler.OnGameStarted.RemoveListener(SetWeaponRotationState);
+	}
 
-    private void SetWeaponDirection()
-    {
-        if (weapon.Target != null && weapon.PlayerForWeaponLink != null)
-        {
-            weaponDirection = (weapon.Target.position - weapon.PlayerForWeaponLink.transform.position).normalized;
+	private void Update()
+	{
+		currentWeaponState.Handle(this);
+	}
 
-            // Проверяем, в какую сторону должен быть повернут персонаж
-            if (weaponDirection.x > 0 && !facingRight)
-            {
-                Flip();
-            }
-            else if (weaponDirection.x < 0 && facingRight)
-            {
-                Flip();
-            }
-        }
-    }
+	public void SetWeaponDirection()
+	{
+		if (weapon.Target != null && weapon.PlayerForWeaponLink != null)
+		{
+			weaponDirection = (weapon.Target.position - weapon.PlayerForWeaponLink.transform.position).normalized;
 
-    private void Flip()
-    {
-        facingRight = !facingRight;
-        Vector3 theScale = transform.localScale;
-        theScale.y *= -1;
-        transform.localScale = theScale;
-    }
+			// Проверяем, в какую сторону должен быть повернут персонаж
+			if (weaponDirection.x > 0 && !facingRight)
+			{
+				Flip();
+			}
+			else if (weaponDirection.x < 0 && facingRight)
+			{
+				Flip();
+			}
+		}
+	}
+
+	private void Flip()
+	{
+		facingRight = !facingRight;
+		Vector3 theScale = transform.localScale;
+		theScale.y *= -1;
+		transform.localScale = theScale;
+	}
+
+	private void SetWeaponRotationState()
+	{
+		currentWeaponState = new WeaponRotationAfterStartState();
+	}
 }

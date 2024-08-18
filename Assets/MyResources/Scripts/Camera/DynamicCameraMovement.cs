@@ -2,14 +2,29 @@ using UnityEngine;
 
 public class DynamicCameraMovement : MonoBehaviour
 {
-    [SerializeField] private Transform player;
-    [SerializeField] private float smoothingMovement = 0.1f;
+	private Player player;
 
-    private void Update()
-    {
-        Vector3 targetPosition = player.transform.position;
-        targetPosition.z = transform.position.z;
+	[SerializeField] private float smoothingMovement = 0.1f;
 
-        transform.position = Vector3.Lerp(transform.position, targetPosition, smoothingMovement);
-    }
+	private void OnEnable()
+	{
+		Player.OnPlayerSpawned.AddListener(SetPlayer);
+	}
+	private void OnDisable()
+	{
+		Player.OnPlayerSpawned.RemoveListener(SetPlayer);
+	}
+
+	private void Update()
+	{
+		Vector3 targetPosition = player.transform.position;
+		targetPosition.z = transform.position.z;
+
+		transform.position = Vector3.Lerp(transform.position, targetPosition, smoothingMovement);
+	}
+
+	private void SetPlayer(Player player)
+	{
+		this.player = player;
+	}
 }

@@ -11,6 +11,6 @@ public class PlayerMovement : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		player.Move();
+		player.Move(player.MovementForce);
 	}
 }

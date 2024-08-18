@@ -3,46 +3,34 @@ using UnityEngine.EventSystems;
 
 public class FloatingJoystick : Joystick, IPointerDownHandler, IPointerUpHandler
 {
-    [SerializeField] private bool hidding = false;
+	protected override void Start()
+	{
+		base.Start();
 
-    protected override void Start()
-    {
-        base.Start();
-        
-        HideJoystick();
-    }
+		ShowJoystick(false);
+	}
 
-    public override void OnPointerDown(PointerEventData eventData)
-    {       
-        base.OnPointerDown(eventData);
-        
-        ShowJoystick();
+	public override void OnPointerDown(PointerEventData eventData)
+	{
+		base.OnPointerDown(eventData);
 
-        Vector2 newJoystickPostition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		ShowJoystick(true);
 
-        joystickRing.transform.position = newJoystickPostition;
-        stick.anchoredPosition = originalPosition; // Обновляем позицию стика
-    }
+		Vector2 newJoystickPostition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
+		joystickRing.transform.position = newJoystickPostition;
+		stick.anchoredPosition = originalPosition;
+	}
 
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        HideJoystick();
-    }
+	public override void OnPointerUp(PointerEventData eventData)
+	{
+		base.OnPointerUp(eventData);
 
-    private void HideJoystick()
-    {
-        if(hidding)
-        {
-            joystickRing.gameObject.SetActive(false);
-        }
-    }
+		ShowJoystick(false);
+	}
 
-    private void ShowJoystick()
-    {
-        if(hidding)
-        {
-            joystickRing.gameObject.SetActive(true);
-        }
-    }
+	private void ShowJoystick(bool hiddingState)
+	{
+		joystickRing.gameObject.SetActive(hiddingState);
+	}
 }

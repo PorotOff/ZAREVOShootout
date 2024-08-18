@@ -1,53 +1,57 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler
+public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
-    [SerializeField] protected RectTransform joystickRing;
-    [SerializeField] protected RectTransform stick;
+	public static UnityEvent<Joystick> OnJoystickInitialized = new UnityEvent<Joystick>();
+	public UnityEvent OnPlayerTouchedStick = new UnityEvent();
+	public UnityEvent OnPlayerReleasedStick = new UnityEvent();
 
-    protected Vector2 originalPosition;
+	[SerializeField] protected RectTransform joystickRing;
+	[SerializeField] protected RectTransform stick;
 
-    [SerializeField] [Range(0, 1)] private float boundaryRadius = 0.5f;
+	protected Vector2 originalPosition;
 
-    public static event Action<Joystick> OnInitializedNewJoystick;
+	[SerializeField][Range(0, 1)] private float boundaryRadius = 0.5f;
 
-    protected virtual void Start()
-    {
-        originalPosition = stick.anchoredPosition;
-        SendMessageAboutInitializingNewJoystick();
-    }
+	protected virtual void Start()
+	{
+		originalPosition = stick.anchoredPosition;
 
-    public virtual void OnPointerDown(PointerEventData eventData)
-    {
-    }
+		OnJoystickInitialized?.Invoke(this);
+	}
 
-    public virtual void OnDrag(PointerEventData eventData)
-    {
-        Vector2 newPosition = Vector2.zero;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(joystickRing, eventData.position, eventData.pressEventCamera, out newPosition);
+	public virtual void OnPointerDown(PointerEventData eventData)
+	{
+		OnPlayerTouchedStick?.Invoke();
+	}
 
-        Vector2 direction = newPosition - originalPosition;
-        float distance = Vector2.Distance(originalPosition, newPosition);
+	public virtual void OnDrag(PointerEventData eventData)
+	{
+		Vector2 newPosition = Vector2.zero;
+		RectTransformUtility.ScreenPointToLocalPointInRectangle(joystickRing, eventData.position, eventData.pressEventCamera, out newPosition);
 
-        if (distance > boundaryRadius * joystickRing.rect.width)
-        {
-            newPosition = originalPosition + direction.normalized * boundaryRadius * joystickRing.rect.width;
-        }
+		Vector2 direction = newPosition - originalPosition;
+		float distance = Vector2.Distance(originalPosition, newPosition);
 
-        stick.anchoredPosition = newPosition;
-    }
+		if (distance > boundaryRadius * joystickRing.rect.width)
+		{
+			newPosition = originalPosition + direction.normalized * boundaryRadius * joystickRing.rect.width;
+		}
 
-    public Vector2 GetNormalizedInput()
-    {
-        Vector2 input = stick.anchoredPosition / (boundaryRadius * joystickRing.rect.width);
+		stick.anchoredPosition = newPosition;
+	}
+	public virtual void OnPointerUp(PointerEventData eventData)
+	{
+		OnPlayerReleasedStick?.Invoke();
+	}
 
-        return new Vector2(Mathf.Clamp(input.x, -1, 1), Mathf.Clamp(input.y, -1, 1));
-    }
+	public Vector2 GetNormalizedInput()
+	{
+		Vector2 input = stick.anchoredPosition / (boundaryRadius * joystickRing.rect.width);
 
-    private void SendMessageAboutInitializingNewJoystick()
-    {
-        OnInitializedNewJoystick?.Invoke(this);
-    }
+		return new Vector2(Mathf.Clamp(input.x, -1, 1), Mathf.Clamp(input.y, -1, 1));
+	}
 }

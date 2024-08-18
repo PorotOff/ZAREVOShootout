@@ -11,9 +11,6 @@ public class BulletMovement : MonoBehaviour
 
     private void OnEnable()
     {
-        if(bullet.Weapon != null)
-        {
-            bullet.GetFlyImpulse();
-        }
+        bullet.GetFlyImpulse();
     }
 }

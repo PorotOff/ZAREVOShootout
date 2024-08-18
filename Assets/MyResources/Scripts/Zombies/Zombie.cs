@@ -1,10 +1,12 @@
-using System;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class Zombie : Entity, IMovable
 {
-	public static event Action<Zombie> OnZombieSpawned;
-	public static event Action OnZombieHealthZero;
+	public static UnityEvent<Zombie> OnZombieSpawned = new UnityEvent<Zombie>();
+
+	private NavMeshAgent navMeshAgent;
 
 	[Header("Damage settings")]
 	[SerializeField] private int damage = 5;
@@ -28,25 +30,37 @@ public class Zombie : Entity, IMovable
 	private Transform target;
 	private Vector2 moveDirection = Vector2.zero;
 
+	protected override void Awake()
+	{
+		navMeshAgent = GetComponent<NavMeshAgent>();
+		navMeshAgent.updateRotation = false;
+		navMeshAgent.updateUpAxis = false;
+	}
+
 	private void OnEnable()
 	{
-		Player.OnPlayerSpawned += SetTarget;
-		Player.OnPlayerHealthZero += ClearTarget;
+		GameOverHandler.OnGameOver.AddListener(ClearTarget);
+
+		Health = MaxHealth;
+
+		Player player = FindObjectOfType<Player>();
+		if (player != null)
+		{
+			SetTarget(player);
+		}
 	}
 	private void OnDisable()
 	{
-		Player.OnPlayerSpawned -= SetTarget;
-		Player.OnPlayerHealthZero += ClearTarget;
+		GameOverHandler.OnGameOver.RemoveListener(ClearTarget);
 	}
-
-	protected void Start()
+	private void Start()
 	{
 		OnZombieSpawned?.Invoke(this);
 	}
 
-	private void SetTarget(Player target)
+	private void SetTarget(Player player)
 	{
-		this.target = target.gameObject.transform;
+		target = player.transform;
 	}
 	private void ClearTarget()
 	{
@@ -57,9 +71,7 @@ public class Zombie : Entity, IMovable
 	{
 		if (target != null)
 		{
-			moveDirection = (Vector2)target.position - (Vector2)transform.position;
-
-			entity.velocity = moveDirection.normalized * movementSpeed;
+			navMeshAgent.SetDestination(target.position);
 		}
 	}
 }
