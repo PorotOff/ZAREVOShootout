@@ -1,31 +1,19 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
+public class Joystick : MonoBehaviour, IDragHandler
 {
-	public static UnityEvent<Joystick> OnJoystickInitialized = new UnityEvent<Joystick>();
-	public UnityEvent OnPlayerTouchedStick = new UnityEvent();
-	public UnityEvent OnPlayerReleasedStick = new UnityEvent();
-
 	[SerializeField] protected RectTransform joystickRing;
 	[SerializeField] protected RectTransform stick;
 
 	protected Vector2 originalPosition;
 
-	[SerializeField][Range(0, 1)] private float boundaryRadius = 0.5f;
+	[SerializeField] [Range(0, 1)] private float boundaryRadius = 0.5f;
 
 	protected virtual void Start()
 	{
 		originalPosition = stick.anchoredPosition;
-
-		OnJoystickInitialized?.Invoke(this);
-	}
-
-	public virtual void OnPointerDown(PointerEventData eventData)
-	{
-		OnPlayerTouchedStick?.Invoke();
 	}
 
 	public virtual void OnDrag(PointerEventData eventData)
@@ -43,15 +31,12 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
 
 		stick.anchoredPosition = newPosition;
 	}
-	public virtual void OnPointerUp(PointerEventData eventData)
-	{
-		OnPlayerReleasedStick?.Invoke();
-	}
 
-	public Vector2 GetNormalizedInput()
+	public Vector2 GetNormalizedMovementDirection()
 	{
 		Vector2 input = stick.anchoredPosition / (boundaryRadius * joystickRing.rect.width);
+		Vector2 normalizedMovementDirection = new Vector2(Mathf.Clamp(input.x, -1, 1), Mathf.Clamp(input.y, -1, 1));
 
-		return new Vector2(Mathf.Clamp(input.x, -1, 1), Mathf.Clamp(input.y, -1, 1));
+		return normalizedMovementDirection;
 	}
 }

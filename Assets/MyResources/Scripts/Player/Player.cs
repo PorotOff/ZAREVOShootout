@@ -25,9 +25,9 @@ public class Player : Entity
 	{
 		if (joystick != null)
 		{
-			Vector2 movementDirection = joystick.GetNormalizedInput();
+			Vector2 movementDirection = joystick.GetNormalizedMovementDirection();
 
-			entityRigidbody.velocity = movementDirection * movementForce * movementForceModification;
+			entityRigidbody.linearVelocity = movementDirection * movementForce * movementForceModification;
 		}
 	}
 

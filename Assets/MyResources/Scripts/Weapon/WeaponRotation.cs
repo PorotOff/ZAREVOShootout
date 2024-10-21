@@ -19,11 +19,11 @@ public class WeaponRotation : MonoBehaviour
 
 	private void OnEnable()
 	{
-		StartGameHandler.OnGameStarted.AddListener(SetWeaponRotationState);
+		DisableObjectsAfterGameStart.OnGameStarted.AddListener(SetWeaponRotationState);
 	}
 	private void OnDisable()
 	{
-		StartGameHandler.OnGameStarted.RemoveListener(SetWeaponRotationState);
+		DisableObjectsAfterGameStart.OnGameStarted.RemoveListener(SetWeaponRotationState);
 	}
 
 	private void Update()

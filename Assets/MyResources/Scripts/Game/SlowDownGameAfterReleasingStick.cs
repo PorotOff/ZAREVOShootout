@@ -9,16 +9,16 @@ public class SlowDownGameAfterReleasingStick : MonoBehaviour
 
 	private void OnEnable()
 	{
-		Joystick.OnJoystickInitialized.AddListener(SetJoystick);
+		NotifyPlayerTouches.OnJoystickInitialized.AddListener(SetJoystick);
 	}
 	private void OnDisable()
 	{
-		Joystick.OnJoystickInitialized.RemoveListener(SetJoystick);
+		NotifyPlayerTouches.OnJoystickInitialized.RemoveListener(SetJoystick);
 
 		if (joystick != null)
 		{
-			joystick.OnPlayerTouchedStick.RemoveListener(NormalizeGameSpeed);
-			joystick.OnPlayerReleasedStick.RemoveListener(SlowDownGameSpeed);
+			NotifyPlayerTouches.OnPlayerTouchedStick.RemoveListener(NormalizeGameSpeed);
+			NotifyPlayerTouches.OnPlayerReleasedStick.RemoveListener(SlowDownGameSpeed);
 		}
 	}
 
