@@ -9,11 +9,11 @@ public class Player : Entity
 
 	private void OnEnable()
 	{
-		Joystick.OnJoystickInitialized.AddListener(SetJoystickForPlayer);
+		NotifyPlayerTouches.OnJoystickInitialized.AddListener(SetJoystickForPlayer);
 	}
 	private void OnDisable()
 	{
-		Joystick.OnJoystickInitialized.RemoveListener(SetJoystickForPlayer);
+		NotifyPlayerTouches.OnJoystickInitialized.RemoveListener(SetJoystickForPlayer);
 	}
 
 	private void Start()

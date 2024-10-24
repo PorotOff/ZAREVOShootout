@@ -26,8 +26,8 @@ public class SlowDownGameAfterReleasingStick : MonoBehaviour
 	{
 		this.joystick = joystick;
 
-		joystick.OnPlayerTouchedStick.AddListener(NormalizeGameSpeed);
-		joystick.OnPlayerReleasedStick.AddListener(SlowDownGameSpeed);
+		NotifyPlayerTouches.OnPlayerTouchedStick.AddListener(NormalizeGameSpeed);
+		NotifyPlayerTouches.OnPlayerReleasedStick.AddListener(SlowDownGameSpeed);
 	}
 
 	private void SlowDownGameSpeed()
