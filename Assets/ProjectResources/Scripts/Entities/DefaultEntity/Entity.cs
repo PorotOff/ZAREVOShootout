@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Entity : MonoBehaviour, IMovable, IDamagable
 {
-	public UnityEvent<Entity> OnEntityHealtChanged = new UnityEvent<Entity>();
-	public static UnityEvent<Entity> OnEntityHealthZero = new UnityEvent<Entity>();
+	[HideInInspector] public UnityEvent<Entity> OnEntityHealtChanged = new UnityEvent<Entity>();
+	public static event Action OnEntityHealthZero;
 
 	protected Rigidbody2D entityRigidbody;
 
@@ -44,7 +45,7 @@ public class Entity : MonoBehaviour, IMovable, IDamagable
 			{
 				health = 0;
 
-				OnEntityHealthZero?.Invoke(this);
+				OnEntityHealthZero?.Invoke();
 
 				gameObject.SetActive(false);
 			}
@@ -67,7 +68,7 @@ public class Entity : MonoBehaviour, IMovable, IDamagable
 		Health = maxHealth;
 	}
 
-	public void Move(float movementForce) { }
+	public void Move() { }
 	public void ModificateSpeed(float speedModification)
 	{
 		movementForce += speedModification;

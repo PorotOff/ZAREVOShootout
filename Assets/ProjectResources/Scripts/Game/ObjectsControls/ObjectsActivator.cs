@@ -22,13 +22,13 @@ public class ObjectsActivator : MonoBehaviour
 	{
 		NotifyStartGame.OnGameStarted.AddListener(StartWhichOneActivationCoroutine);
 
-		GameOverHandler.OnGameOver.AddListener(StopCurrentCoroutine);
+		// GameOverHandler.OnGameOver.AddListener(StopCurrentCoroutine);
 	}
 	private void OnDisable()
 	{
 		NotifyStartGame.OnGameStarted.RemoveListener(StartWhichOneActivationCoroutine);
 
-		GameOverHandler.OnGameOver.RemoveListener(StopCurrentCoroutine);
+		// GameOverHandler.OnGameOver.RemoveListener(StopCurrentCoroutine);
 	}
 
 	private void StartWhichOneActivationCoroutine()

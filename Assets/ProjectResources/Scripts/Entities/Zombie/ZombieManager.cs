@@ -12,8 +12,6 @@ public class ZombieManager : MonoBehaviour
 
 	private void Awake()
 	{
-		player = GetComponent<Player>();
-
 		zombies = new List<Zombie>();
 	}
 
@@ -21,13 +19,13 @@ public class ZombieManager : MonoBehaviour
 	{
 		Zombie.OnZombieSpawned.AddListener(AddZombieToZombiesList);
 
-		GameOverHandler.OnGameOver.AddListener(ClearZombiesList);
+		// GameOverHandler.OnGameOver.AddListener(ClearZombiesList);
 	}
 	private void OnDisable()
 	{
 		Zombie.OnZombieSpawned.RemoveListener(AddZombieToZombiesList);
 
-		GameOverHandler.OnGameOver.RemoveListener(ClearZombiesList);
+		// GameOverHandler.OnGameOver.RemoveListener(ClearZombiesList);
 	}
 
 	private void Start()

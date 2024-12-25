@@ -36,42 +36,8 @@ public class Zombie : Entity, IMovable
 		navMeshAgent.updateRotation = false;
 		navMeshAgent.updateUpAxis = false;
 	}
-
-	private void OnEnable()
-	{
-		GameOverHandler.OnGameOver.AddListener(ClearTarget);
-
-		Health = MaxHealth;
-
-		Player player = FindObjectOfType<Player>();
-		if (player != null)
-		{
-			SetTarget(player);
-		}
-	}
-	private void OnDisable()
-	{
-		GameOverHandler.OnGameOver.RemoveListener(ClearTarget);
-	}
 	private void Start()
 	{
 		OnZombieSpawned?.Invoke(this);
-	}
-
-	private void SetTarget(Player player)
-	{
-		target = player.transform;
-	}
-	private void ClearTarget()
-	{
-		target = null;
-	}
-
-	public void Move()
-	{
-		if (target != null)
-		{
-			navMeshAgent.SetDestination(target.position);
-		}
 	}
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 public class DoDamageToPlayer : MonoBehaviour
 {
 	private Zombie zombie;
-	private Player player;
+	// private Player player;
 
 	private void Awake()
 	{
@@ -14,23 +14,23 @@ public class DoDamageToPlayer : MonoBehaviour
 	{
 		if (other.gameObject.CompareTag("Player"))
 		{
-			player = other.gameObject.GetComponent<Player>();
+			// player = other.gameObject.GetComponent<Player>();
 		}
 	}
 
 	private void OnCollisionStay2D(Collision2D other)
 	{
-		if (player != null && other.gameObject.CompareTag("Player"))
-		{
-			player.TakeDamage(zombie.Damage);
-		}
+		// if (player != null && other.gameObject.CompareTag("Player"))
+		// {
+		// 	player.TakeDamage(zombie.Damage);
+		// }
 	}
 
 	private void OnCollisionExit2D(Collision2D other)
 	{
 		if (other.gameObject.CompareTag("Player"))
 		{
-			player = null;
+			// player = null;
 		}
 	}
 }
